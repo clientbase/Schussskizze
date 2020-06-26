@@ -1,0 +1,11 @@
+{
+    "name": "Schussskizze",
+    "references": [
+        "Unity.TextMeshPro",
+        "com.uboat.modding-tools.Editor"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

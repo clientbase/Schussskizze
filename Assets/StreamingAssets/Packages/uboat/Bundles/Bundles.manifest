@@ -1,0 +1,10 @@
+ManifestFileVersion: 0
+CRC: 1837393417
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: uboat.core
+      Dependencies: {}
+    Info_1:
+      Name: schussskizze
+      Dependencies: {}

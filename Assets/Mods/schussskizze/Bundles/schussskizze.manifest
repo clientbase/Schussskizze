@@ -1,0 +1,56 @@
+ManifestFileVersion: 0
+CRC: 1726967096
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 28bf58758c3ceb801690c5526854ff7a
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 768f872dc56098c947f89f31f48b6c76
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 1651638530, guid: aaeaace971825154b9e63cccd06929df, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 2f0ee117f8320d04a8c7ae202720e161, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f754692bde12e9944aea6fe307f6f3f0, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 223
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+Assets:
+- Assets/Packages/schussskizze/Manifest.asset
+- Assets/Packages/schussskizze/UI/SketchAreaPanel.prefab
+- Assets/Packages/schussskizze/UI/SchussskizzeCanvas.prefab
+Dependencies: []
