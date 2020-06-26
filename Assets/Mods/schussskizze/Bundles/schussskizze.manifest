@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1726967096
+CRC: 3555944577
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 28bf58758c3ceb801690c5526854ff7a
+    Hash: f335289c021891858502cf4f0597f527
   TypeTreeHash:
     serializedVersion: 2
     Hash: 768f872dc56098c947f89f31f48b6c76
@@ -50,7 +50,9 @@ ClassTypes:
 - Class: 224
   Script: {instanceID: 0}
 Assets:
+- Assets/Packages/schussskizze/UI/SchussskizzeBG.jpg
 - Assets/Packages/schussskizze/Manifest.asset
 - Assets/Packages/schussskizze/UI/SketchAreaPanel.prefab
+- Assets/Packages/schussskizze/UI/Werbedeutsch.ttf
 - Assets/Packages/schussskizze/UI/SchussskizzeCanvas.prefab
 Dependencies: []

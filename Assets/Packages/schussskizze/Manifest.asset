@@ -14,7 +14,11 @@ MonoBehaviour:
   containedAssets:
   - path: Manifest
     guid: 393b2025135b1334aa43d06e3875e2d5
+  - path: UI/SchussskizzeBG
+    guid: e667fcd40dbcb304a91af5c52a8743a6
   - path: UI/SchussskizzeCanvas
     guid: d7aa79cbeb686034291e91600381312c
   - path: UI/SketchAreaPanel
     guid: 7d276b06a0ff79942b8957fd66e03f93
+  - path: UI/Werbedeutsch
+    guid: d8d4c428b8ed2f744b392d0054fe1cca
