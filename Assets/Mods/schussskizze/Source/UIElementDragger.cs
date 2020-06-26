@@ -11,7 +11,7 @@ public class UIElementDragger : EventTrigger
     {
         if (dragging)
         {
-            transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            this.GetComponent<RectTransform>().position = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
         }
     }
 
