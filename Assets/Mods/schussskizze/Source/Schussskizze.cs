@@ -8,6 +8,7 @@ using DWS.Common.Resources;
 using Harmony;
 
 using UBOAT.Game.Core.Serialization;
+using UBOAT.Game.Sandbox;
 using UBOAT.Game.Scene.Entities;
 using UBOAT.Game.UI;
 using UBOAT.ModAPI;
@@ -39,6 +40,10 @@ namespace UBOAT.Mods.Schussskizze
         private void onObservationAdded(Observator observer, DirectObservation observation)
         {
             Debug.Log("Schussskizze - Observation added! Name:" + observation.Entity.Name + " (total: " + playerShip.GetObservationsDirect().Count + ")");
+            if (observation.Entity.Country.GetRelationWith(playerShip.Country) == Country.Relation.Enemy)
+            {
+                Debug.Log("Schussskizze - Enemy ship spotted! Name: " + observation.Entity.Name + ", Catagory: " + observation.Entity.Category);
+            }
         }
 
         private void onObservationRemoved(Observator observer, DirectObservation observation)
