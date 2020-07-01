@@ -18,6 +18,8 @@ MonoBehaviour:
     guid: e667fcd40dbcb304a91af5c52a8743a6
   - path: UI/SchussskizzeCanvas
     guid: d7aa79cbeb686034291e91600381312c
+  - path: UI/SchussskizzeLineMaterial
+    guid: 876f4ba61a67ca649a656598492d5578
   - path: UI/SketchAreaPanel
     guid: 7d276b06a0ff79942b8957fd66e03f93
   - path: UI/Werbedeutsch

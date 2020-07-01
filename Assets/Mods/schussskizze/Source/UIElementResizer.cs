@@ -20,13 +20,7 @@ public class UIElementResizer : EventTrigger {
         if (resizing)
         {
             var mouseDelta = new Vector2(Input.mousePosition.x, Input.mousePosition.y) - lastMousePosition;
-            var panelHeight = Screen.height + uiElement.sizeDelta.y;
-            var deltaY = panelHeight - Screen.height - mouseDelta.y;
-            var panelWidth = Screen.width + uiElement.sizeDelta.x;
-            var deltaX = panelHeight - Screen.width - mouseDelta.x;
-            //uiElement.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, deltaY);
-            //uiElement.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, uiElement.sizeDelta.x + mouseDelta.x);
-            uiElement.sizeDelta = new Vector2(uiElement.sizeDelta.x + mouseDelta.x, deltaY);
+            uiElement.sizeDelta = new Vector2(uiElement.sizeDelta.x + mouseDelta.x, uiElement.sizeDelta.y + mouseDelta.y);
             lastMousePosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
         }
 	}

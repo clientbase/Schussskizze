@@ -17,7 +17,6 @@ namespace UBOAT.Mods.Schussskizze
         private static ResourceManager resourceManager;
         [Inject]
         private static GameTime gameTime;
-
         private List<GameObject> sketches = new List<GameObject>();
 
         public void Start()

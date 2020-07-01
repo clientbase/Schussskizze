@@ -8,6 +8,7 @@ using DWS.Common.Resources;
 using Harmony;
 
 using UBOAT.Game.Core.Serialization;
+using UBOAT.Game.Scene.Entities;
 using UBOAT.Game.UI;
 using UBOAT.ModAPI;
 using UBOAT.ModAPI.Core.InjectionFramework;
@@ -22,6 +23,36 @@ namespace UBOAT.Mods.Schussskizze
     {
         [Inject]
         private static ResourceManager resourceManager;
+        [Inject]
+        private static PlayerShip playerShip;
+
+        private void onAlarmStarted()
+        {
+            Debug.Log("Schussskizze - Alarm!");
+        }
+
+        private void onAlarmStoped()
+        {
+            Debug.Log("Schussskizze - Alarm stopped!");
+        }
+
+        private void onObservationAdded(Observator observer, DirectObservation observation)
+        {
+            Debug.Log("Schussskizze - Observation added! Name:" + observation.Entity.Name + " (total: " + playerShip.GetObservationsDirect().Count + ")");
+        }
+
+        private void onObservationRemoved(Observator observer, DirectObservation observation)
+        {
+            Debug.Log("Schussskizze - Observation removed! Name:" + observation.Entity.Name + " (total: " + playerShip.GetObservationsDirect().Count + ")");
+        }
+
+        public void wireEvents()
+        {
+            playerShip.AlarmStarted += onAlarmStarted;
+            playerShip.AlarmStopped += onAlarmStoped;
+            playerShip.ObservationAdded += onObservationAdded;
+            playerShip.ObservationAdded += onObservationRemoved;
+        }
 
         public void OnLoaded()
         {
@@ -45,6 +76,7 @@ namespace UBOAT.Mods.Schussskizze
                     var schussskizze = resourceManager.InstantiatePrefab("UI/SchussskizzeCanvas");
                     var viewport = GameObject.Find("/GUI/Viewport").transform;
                     schussskizze.transform.SetParent(viewport, false);
+                    wireEvents();
                 }
             }
             catch (Exception e)
