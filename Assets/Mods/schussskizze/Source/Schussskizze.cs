@@ -26,6 +26,7 @@ namespace UBOAT.Mods.Schussskizze
         private static ResourceManager resourceManager;
         [Inject]
         private static PlayerShip playerShip;
+        private List<DirectObservation> observations = new List<DirectObservation>();
 
         private void onAlarmStarted()
         {
@@ -37,18 +38,42 @@ namespace UBOAT.Mods.Schussskizze
             Debug.Log("Schussskizze - Alarm stopped!");
         }
 
+        private void onObservationChanded(DirectObservation observation)
+        {
+            Debug.Log("Schussskizze - Observation Changed");
+            logObservation(observation);
+        }
+
+        private void logObservation(DirectObservation observation)
+        {
+            Debug.Log("Schussskizze - Observation: Name: " + observation.Entity.Name + ", Catagory: " + observation.Entity.Category + "\n" +
+                    "Estimated Speed: " + observation.EstimatedVelocity + "\n" +
+                    "Estimated Course: " + observation.EstimatedCourse + "\n" +
+                    "Estimated Distance: " + observation.EstimatedDistance + "\n" +
+                    "Entity Position: " + observation.Entity.transform.position.ToString() + "\n" +
+                    "Entity Distance: " + (observation.Entity.transform.position - playerShip.transform.position).magnitude + " meters" + "\n" +
+                    "Crew Accuracy: " + playerShip.CrewAccuracy.Value
+                    );
+        }
+
         private void onObservationAdded(Observator observer, DirectObservation observation)
         {
             Debug.Log("Schussskizze - Observation added! Name:" + observation.Entity.Name + " (total: " + playerShip.GetObservationsDirect().Count + ")");
             if (observation.Entity.Country.GetRelationWith(playerShip.Country) == Country.Relation.Enemy)
             {
-                Debug.Log("Schussskizze - Enemy ship spotted! Name: " + observation.Entity.Name + ", Catagory: " + observation.Entity.Category);
+                logObservation(observation);
+                observation.Changed += onObservationChanded;
+                observations.Add(observation);
             }
         }
 
         private void onObservationRemoved(Observator observer, DirectObservation observation)
         {
-            Debug.Log("Schussskizze - Observation removed! Name:" + observation.Entity.Name + " (total: " + playerShip.GetObservationsDirect().Count + ")");
+            Debug.Log("Schussskizze - Observation removed! Name: " + observation.Entity.Name + " (total: " + playerShip.GetObservationsDirect().Count + ")");
+            if (observations.Contains(observation))
+            {
+                Debug.Log("Observation in list removed!");
+            }
         }
 
         public void wireEvents()
