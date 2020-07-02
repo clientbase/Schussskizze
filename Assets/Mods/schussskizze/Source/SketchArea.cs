@@ -11,6 +11,10 @@ namespace UBOAT.Mods.Schussskizze
     public class SketchArea : MonoBehaviour
     {
         private Texture2D texture;
+        private Matrix4x4 matrix;
+        private Vector3 last_position = Vector3.zero;
+        private float line_width = 10;
+        private float scale = 100;
 
         public void Start()
         {
@@ -20,6 +24,12 @@ namespace UBOAT.Mods.Schussskizze
             texture.Apply();
             var mySprite = Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f);
             GetComponent<Image>().sprite = mySprite;
+
+            matrix.SetTRS(-Schussskizze.PlayerPostion * scale + new Vector3(texture.width/2, texture.height/2, 0), Quaternion.identity, Vector3.one);
+            last_position = Schussskizze.PlayerPostion;
+
+            last_position = matrix * Schussskizze.PlayerPostion;
+            Schussskizze.OnPlayerPosition += onPlayerPositionUpdate;
         }
 
         void plotLineWidth(int x0, int y0, int x1, int y1, float wd)
@@ -74,6 +84,26 @@ namespace UBOAT.Mods.Schussskizze
         private int abs(int v)
         {
             return Mathf.Abs(v);
+        }
+
+        private void onPlayerPositionUpdate(Vector3 position)
+        {
+            Debug.Log("Sketch Area - Player Position: " + position);
+            var formatted_last_position = matrix.MultiplyPoint3x4(scale * last_position);
+            var formatted_position = matrix.MultiplyPoint3x4(scale * position);
+            Debug.Log("Sketch Area - Formated Player Position: " + formatted_position);
+            Debug.Log("Sketch Area - Formatted Last Position: " + formatted_last_position);
+            plotLineWidth(
+                (int)formatted_last_position.x,
+                (int)formatted_last_position.y,
+                (int)formatted_position.x,
+                (int)formatted_position.y,
+                line_width
+                );
+            texture.Apply();
+            var mySprite = Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f);
+            GetComponent<Image>().sprite = mySprite;
+            last_position = position;
         }
     }
 }

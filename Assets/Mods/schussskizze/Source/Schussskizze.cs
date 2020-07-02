@@ -26,8 +26,14 @@ namespace UBOAT.Mods.Schussskizze
         private static ResourceManager resourceManager;
         [Inject]
         private static PlayerShip playerShip;
+        [Inject]
+        private static IExecutionQueue executionQueue;
+
         private List<DirectObservation> observations = new List<DirectObservation>();
         private GameObject UI;
+
+        public static Action<Vector3> OnPlayerPosition;
+        public static Vector3 PlayerPostion => new Vector3(playerShip.SandboxEntity.Position.x, playerShip.SandboxEntity.Position.y, 0);
 
         private void showNewSketchButton(bool show)
         {
@@ -84,7 +90,7 @@ namespace UBOAT.Mods.Schussskizze
             }
         }
 
-        public void wireEvents()
+        private void wireEvents()
         {
             playerShip.AlarmStarted += onAlarmStarted;
             playerShip.AlarmStopped += onAlarmStoped;
@@ -102,6 +108,18 @@ namespace UBOAT.Mods.Schussskizze
             SceneEventsListener.OnSceneAwake += onSceneAwake;
         }
 
+        private static float UpdatePlayerPosition()
+        {
+            Debug.Log("Schussskizze - Updating Player's postion!");
+            Debug.Log("Schussskizze - Sandbox Position: " + playerShip.SandboxEntity.Position);
+            if (OnPlayerPosition != null)
+            {
+                Debug.Log("Schussskizze - Player's postion has listener!");
+                OnPlayerPosition(new Vector3(playerShip.SandboxEntity.Position.x, playerShip.SandboxEntity.Position.y, 0));
+            }
+            return 5.0f;
+        }
+
         private void onSceneAwake(Scene scene)
         {
             try
@@ -117,6 +135,7 @@ namespace UBOAT.Mods.Schussskizze
                     UI = schussskizze;
                     showNewSketchButton(false);
                     wireEvents();
+                    executionQueue.AddTimedUpdateListener(UpdatePlayerPosition, 5.0f);
                 }
             }
             catch (Exception e)
