@@ -51,6 +51,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224020449296112350}
+  - component: {fileID: 222443561589407770}
+  - component: {fileID: 114294616003143076}
+  - component: {fileID: 114485646329872900}
   m_Layer: 0
   m_Name: SketchArea
   m_TagString: Untagged
@@ -103,7 +106,6 @@ GameObject:
   - component: {fileID: 224503193309733564}
   - component: {fileID: 222085115441055126}
   - component: {fileID: 114974846353688958}
-  - component: {fileID: 114518362681702386}
   - component: {fileID: 114148070340584876}
   m_Layer: 0
   m_Name: SketchAreaPanel
@@ -125,6 +127,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
+--- !u!114 &114294616003143076
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1413454672656094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f0ee117f8320d04a8c7ae202720e161, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114483911097481604
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -158,17 +171,33 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Schussskizze
---- !u!114 &114518362681702386
+--- !u!114 &114485646329872900
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1901740244254974}
+  m_GameObject: {fileID: 1413454672656094}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f0ee117f8320d04a8c7ae202720e161, type: 3}
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
 --- !u!114 &114606308432609698
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -276,6 +305,13 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1901740244254974}
   m_CullTransparentMesh: 0
+--- !u!222 &222443561589407770
+CanvasRenderer:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1413454672656094}
+  m_CullTransparentMesh: 0
 --- !u!222 &222500854276056302
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -310,10 +346,10 @@ RectTransform:
   m_Father: {fileID: 224503193309733564}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 720, y: 509.4}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.6000061, y: 1.199997}
+  m_SizeDelta: {x: -38.2, y: -37.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224039765305134472
 RectTransform:
@@ -346,7 +382,7 @@ RectTransform:
   - {fileID: 224039765305134472}
   - {fileID: 224811641205078776}
   m_Father: {fileID: 224503193309733564}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.0175, y: 0.78722227}
   m_AnchorMax: {x: 0.97249997, y: 0.96222216}
@@ -364,7 +400,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224503193309733564}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -382,8 +418,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224020449296112350}
-  - {fileID: 224276778293629826}
   - {fileID: 224417217828090300}
+  - {fileID: 224276778293629826}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

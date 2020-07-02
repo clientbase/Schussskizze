@@ -18,11 +18,12 @@ namespace UBOAT.Mods.Schussskizze
         [Inject]
         private static GameTime gameTime;
         private List<GameObject> sketches = new List<GameObject>();
+        private SketchArea activeSketch;
 
         public void Start()
         {
             Debug.Log("Sketch creator started.");
-            var buttonObject = transform.Find("SketchButton");
+            var buttonObject = transform.Find("NewSketchButton");
             var onClick = new Button.ButtonClickedEvent();
             onClick.AddListener(CreateNewSketch);
             buttonObject.GetComponent<Button>().onClick = onClick;
@@ -34,6 +35,7 @@ namespace UBOAT.Mods.Schussskizze
             var new_sketch = resourceManager.InstantiatePrefab("UI/SketchAreaPanel");
             new_sketch.transform.SetParent(this.transform, false);
             sketches.Add(new_sketch);
+            activeSketch = new_sketch.GetComponent<SketchArea>();
 
             var dateTimeObject = new_sketch.transform.Find("SketchHeader/DateTimeText");
             dateTimeObject.GetComponent<Text>().text = new DateTime(gameTime.StoryTicks).ToString(gameTime.LongDateTimeFormat);

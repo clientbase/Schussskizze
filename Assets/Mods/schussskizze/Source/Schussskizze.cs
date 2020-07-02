@@ -27,15 +27,23 @@ namespace UBOAT.Mods.Schussskizze
         [Inject]
         private static PlayerShip playerShip;
         private List<DirectObservation> observations = new List<DirectObservation>();
+        private GameObject UI;
+
+        private void showNewSketchButton(bool show)
+        {
+            UI.transform.Find("NewSketchButton").gameObject.SetActive(show);
+        }
 
         private void onAlarmStarted()
         {
             Debug.Log("Schussskizze - Alarm!");
+            showNewSketchButton(true);
         }
 
         private void onAlarmStoped()
         {
             Debug.Log("Schussskizze - Alarm stopped!");
+            showNewSketchButton(false);
         }
 
         private void onObservationChanded(DirectObservation observation)
@@ -106,6 +114,8 @@ namespace UBOAT.Mods.Schussskizze
                     var schussskizze = resourceManager.InstantiatePrefab("UI/SchussskizzeCanvas");
                     var viewport = GameObject.Find("/GUI/Viewport").transform;
                     schussskizze.transform.SetParent(viewport, false);
+                    UI = schussskizze;
+                    showNewSketchButton(false);
                     wireEvents();
                 }
             }
