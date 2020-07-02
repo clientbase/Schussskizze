@@ -35,6 +35,8 @@ namespace UBOAT.Mods.Schussskizze
         public static Action<Vector3> OnPlayerPosition;
         public static Vector3 PlayerPostion => new Vector3(playerShip.SandboxEntity.Position.x, playerShip.SandboxEntity.Position.y, 0);
 
+        public static Action<DirectObservation> OnObservationChanged;
+
         private void showNewSketchButton(bool show)
         {
             UI.transform.Find("NewSketchButton").gameObject.SetActive(show);
@@ -56,6 +58,10 @@ namespace UBOAT.Mods.Schussskizze
         {
             Debug.Log("Schussskizze - Observation Changed");
             logObservation(observation);
+            if (OnObservationChanged != null)
+            {
+                OnObservationChanged(observation);
+            }
         }
 
         private void logObservation(DirectObservation observation)
@@ -78,6 +84,7 @@ namespace UBOAT.Mods.Schussskizze
                 logObservation(observation);
                 observation.Changed += onObservationChanded;
                 observations.Add(observation);
+                onObservationChanded(observation);
             }
         }
 

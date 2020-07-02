@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using UBOAT.Game.Core.Serialization;
+using UBOAT.Game.Core.Time;
 using UBOAT.Game.Scene.Entities;
 using UBOAT.ModAPI.Core.InjectionFramework;
 using UnityEngine;
@@ -7,29 +9,49 @@ using UnityEngine.UI;
 
 namespace UBOAT.Mods.Schussskizze
 {
+    public class Track
+    {
+        public Vector3 LastKnowPostion;
+        public DirectObservation Observation;
+        public long LastObservationTime;
+    }
+
     [NonSerializedInGameState]
     public class SketchArea : MonoBehaviour
     {
+        [Inject]
+        private static GameTime gameTime;
         private Texture2D texture;
         private Matrix4x4 matrix;
         private Vector3 last_position = Vector3.zero;
         private float line_width = 10;
-        private float scale = 100;
+        private float scale = 60;
+        private Dictionary<Entity, Track> tracks = new Dictionary<Entity, Track>();
 
         public void Start()
         {
             Debug.Log("Player has started a sketch.");
-            texture = new Texture2D(1920, 1080);
-            plotLineWidth(0, 0, 1000, 1000, 10);
-            texture.Apply();
+
+            InitTexture();
+
             var mySprite = Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f);
             GetComponent<Image>().sprite = mySprite;
 
-            matrix.SetTRS(-Schussskizze.PlayerPostion * scale + new Vector3(texture.width/2, texture.height/2, 0), Quaternion.identity, Vector3.one);
+            matrix.SetTRS(-Schussskizze.PlayerPostion * scale, Quaternion.identity, Vector3.one);
             last_position = Schussskizze.PlayerPostion;
 
             last_position = matrix * Schussskizze.PlayerPostion;
             Schussskizze.OnPlayerPosition += onPlayerPositionUpdate;
+
+            Schussskizze.OnObservationChanged += onObservationChanged;
+        }
+
+        void InitTexture()
+        {
+            texture = new Texture2D(1920, 1080);
+            texture.SetPixels(0, 0, texture.width, texture.height, new Color[1] { new Color(1, 1, 1, 0) });
+            texture.wrapMode = TextureWrapMode.Clamp;
+            texture.Apply();
         }
 
         void plotLineWidth(int x0, int y0, int x1, int y1, float wd)
@@ -49,7 +71,7 @@ namespace UBOAT.Mods.Schussskizze
                     {
                         y2 += sy;
                         setPixelColor(x0, y2, max(0, 255 * (abs(e2) / ed - wd + 1)));
-                    }   
+                    }
                     if (x0 == x1) break;
                     e2 = err; err -= dy; x0 += sx;
                 }
@@ -59,7 +81,7 @@ namespace UBOAT.Mods.Schussskizze
                     {
                         x2 += sx;
                         setPixelColor(x2, y0, max(0, 255 * (abs(e2) / ed - wd + 1)));
-                    }    
+                    }
                     if (y0 == y1) break;
                     err += dx; y0 += sy;
                 }
@@ -89,21 +111,53 @@ namespace UBOAT.Mods.Schussskizze
         private void onPlayerPositionUpdate(Vector3 position)
         {
             Debug.Log("Sketch Area - Player Position: " + position);
-            var formatted_last_position = matrix.MultiplyPoint3x4(scale * last_position);
-            var formatted_position = matrix.MultiplyPoint3x4(scale * position);
-            Debug.Log("Sketch Area - Formated Player Position: " + formatted_position);
-            Debug.Log("Sketch Area - Formatted Last Position: " + formatted_last_position);
+            DrawTrackLine(last_position, position);
+            last_position = position;
+        }
+
+        private void DrawTrackLine(Vector3 v1, Vector3 v2)
+        {
+            var texture_offset = new Vector3(texture.width / 2, texture.height / 2, 0);
+            var formatted_last_position = matrix.MultiplyPoint3x4(scale * v1) + texture_offset;
+            var formatted_position = matrix.MultiplyPoint3x4(scale * v2) + texture_offset;
             plotLineWidth(
                 (int)formatted_last_position.x,
                 (int)formatted_last_position.y,
                 (int)formatted_position.x,
                 (int)formatted_position.y,
                 line_width
-                );
+            );
             texture.Apply();
             var mySprite = Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f);
             GetComponent<Image>().sprite = mySprite;
-            last_position = position;
+        }
+
+        private void onObservationChanged(DirectObservation observation)
+        {
+            if (tracks.ContainsKey(observation.Entity))
+            {
+                var track = tracks[observation.Entity];
+                var current_position = new Vector3(
+                        observation.Entity.SandboxEntity.Position.x,
+                        observation.Entity.SandboxEntity.Position.y, 0
+                        );
+                DrawTrackLine(track.LastKnowPostion, current_position);
+                track.LastKnowPostion = current_position;
+                track.LastObservationTime = gameTime.StoryTicks;
+                track.Observation = observation;
+            }
+            else
+            {
+                var track = new Track();
+                track.LastObservationTime = gameTime.StoryTicks;
+                track.Observation = observation;
+                track.LastKnowPostion = new Vector3(
+                    observation.Entity.SandboxEntity.Position.x,
+                    observation.Entity.SandboxEntity.Position.y,
+                    0
+                );
+                tracks[observation.Entity] = track;
+            }
         }
     }
 }
