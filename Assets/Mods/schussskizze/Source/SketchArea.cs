@@ -34,7 +34,7 @@ namespace UBOAT.Mods.Schussskizze
         private Dictionary<string, Texture2D> splats = new Dictionary<string, Texture2D>();
         private Vector2 viewportSize = new Vector2(800, 450);
         private Vector2 textureSize = new Vector2(1920, 1080);
-        private float TextureToViewPortScale = 800 / 1920;
+        private float TextureToViewPortScale = 800f / 1920f;
 
         public void Start()
         {
@@ -56,15 +56,18 @@ namespace UBOAT.Mods.Schussskizze
             Schussskizze.OnObservationChanged += onObservationChanged;
 
             var formatted_position = matrix.MultiplyPoint3x4(scale * last_position) + texture_offset;
-            loadSplats();
+            loadSplatsAt(last_position);
         }
 
-        void loadSplats()
+        void loadSplatsAt(Vector3 position)
         {
+            var point = matrix.MultiplyPoint3x4(scale * position) * TextureToViewPortScale;
+            Debug.Log("Draw mark at: " + position);
+            Debug.Log("Draw mark at UI point: " + point);
             var start_point = resourceManager.InstantiatePrefab("UI/PlayerStartPoint");
-            start_point.transform.SetParent(this.transform, false);
+            start_point.transform.SetParent(this.transform, true);
             start_point.transform.SetAsLastSibling();
-            start_point.transform.localPosition = matrix.MultiplyPoint3x4(scale * last_position) * TextureToViewPortScale;
+            start_point.transform.localPosition = matrix.MultiplyPoint3x4(scale * position) * TextureToViewPortScale;
         }
 
         void InitTexture()
@@ -137,7 +140,6 @@ namespace UBOAT.Mods.Schussskizze
 
         private void onPlayerPositionUpdate(Vector3 position)
         {
-            Debug.Log("Sketch Area - Player Position: " + position);
             DrawTrackLine(last_position, position);
             last_position = position;
         }
@@ -189,6 +191,7 @@ namespace UBOAT.Mods.Schussskizze
                     0
                 );
                 tracks[observation.Entity] = track;
+                loadSplatsAt(track.LastKnowPostion);
             }
         }
     }

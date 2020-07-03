@@ -57,7 +57,6 @@ namespace UBOAT.Mods.Schussskizze
         private void onObservationChanded(DirectObservation observation)
         {
             Debug.Log("Schussskizze - Observation Changed");
-            logObservation(observation);
             if (OnObservationChanged != null)
             {
                 OnObservationChanged(observation);
@@ -81,7 +80,6 @@ namespace UBOAT.Mods.Schussskizze
             Debug.Log("Schussskizze - Observation added! Name:" + observation.Entity.Name + " (total: " + playerShip.GetObservationsDirect().Count + ")");
             if (observation.Entity.Country.GetRelationWith(playerShip.Country) == Country.Relation.Enemy)
             {
-                logObservation(observation);
                 observation.Changed += onObservationChanded;
                 observations.Add(observation);
                 onObservationChanded(observation);
@@ -117,11 +115,8 @@ namespace UBOAT.Mods.Schussskizze
 
         private static float UpdatePlayerPosition()
         {
-            Debug.Log("Schussskizze - Updating Player's postion!");
-            Debug.Log("Schussskizze - Sandbox Position: " + playerShip.SandboxEntity.Position);
             if (OnPlayerPosition != null)
             {
-                Debug.Log("Schussskizze - Player's postion has listener!");
                 OnPlayerPosition(new Vector3(playerShip.SandboxEntity.Position.x, playerShip.SandboxEntity.Position.y, 0));
             }
             return 5.0f;
