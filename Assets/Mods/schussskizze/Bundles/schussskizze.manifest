@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3468499270
+CRC: 4193928755
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: fadf30c8f0171b2519ab9ab45c2201d2
+    Hash: 9c78a70185efc3dda2d082845ec47b94
   TypeTreeHash:
     serializedVersion: 2
     Hash: 9a6e823978169cbaf88b615a1eadb7ef
@@ -58,6 +58,9 @@ Assets:
 - Assets/Packages/schussskizze/Manifest.asset
 - Assets/Packages/schussskizze/UI/SketchAreaPanel.prefab
 - Assets/Packages/schussskizze/UI/SchussskizzeLineMaterial.mat
+- Assets/Packages/schussskizze/UI/PlayerStartPointSprite.png
 - Assets/Packages/schussskizze/UI/Werbedeutsch.ttf
+- Assets/Packages/schussskizze/UI/PlayerStartPoint.prefab
+- Assets/Packages/schussskizze/UI/PlayerStartPoint.png
 - Assets/Packages/schussskizze/UI/SchussskizzeCanvas.prefab
 Dependencies: []

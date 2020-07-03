@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DWS.Common.Resources;
+using System;
 using System.Collections.Generic;
 using UBOAT.Game.Core.Serialization;
 using UBOAT.Game.Core.Time;
@@ -21,18 +22,27 @@ namespace UBOAT.Mods.Schussskizze
     {
         [Inject]
         private static GameTime gameTime;
+        [Inject]
+        private static ResourceManager resourceManager;
         private Texture2D texture;
         private Matrix4x4 matrix;
         private Vector3 last_position = Vector3.zero;
         private float line_width = 10;
         private float scale = 60;
         private Dictionary<Entity, Track> tracks = new Dictionary<Entity, Track>();
+        private Vector3 texture_offset;
+        private Dictionary<string, Texture2D> splats = new Dictionary<string, Texture2D>();
+        private Vector2 viewportSize = new Vector2(800, 450);
+        private Vector2 textureSize = new Vector2(1920, 1080);
+        private float TextureToViewPortScale = 800 / 1920;
 
         public void Start()
         {
             Debug.Log("Player has started a sketch.");
 
             InitTexture();
+
+            texture_offset = new Vector3(texture.width / 2, texture.height / 2, 0);
 
             var mySprite = Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f);
             GetComponent<Image>().sprite = mySprite;
@@ -44,14 +54,31 @@ namespace UBOAT.Mods.Schussskizze
             Schussskizze.OnPlayerPosition += onPlayerPositionUpdate;
 
             Schussskizze.OnObservationChanged += onObservationChanged;
+
+            var formatted_position = matrix.MultiplyPoint3x4(scale * last_position) + texture_offset;
+            loadSplats();
+        }
+
+        void loadSplats()
+        {
+            var start_point = resourceManager.InstantiatePrefab("UI/PlayerStartPoint");
+            start_point.transform.SetParent(this.transform, false);
+            start_point.transform.SetAsLastSibling();
+            start_point.transform.localPosition = matrix.MultiplyPoint3x4(scale * last_position) * TextureToViewPortScale;
         }
 
         void InitTexture()
         {
             texture = new Texture2D(1920, 1080);
-            texture.SetPixels(0, 0, texture.width, texture.height, new Color[1] { new Color(1, 1, 1, 0) });
+            texture.SetPixels(0, 0, texture.width, texture.height, new Color[1] { new Color(1f, 1f, 1f, 0f) });
             texture.wrapMode = TextureWrapMode.Clamp;
             texture.Apply();
+        }
+
+        void SplatTexture(int x, int y, Texture2D splat)
+        {
+            texture.SetPixels(x, y, splat.width, splat.height, splat.GetPixels());
+            createSprite();
         }
 
         void plotLineWidth(int x0, int y0, int x1, int y1, float wd)
@@ -90,7 +117,7 @@ namespace UBOAT.Mods.Schussskizze
 
         private void setPixelColor(int x0, int y2, int v)
         {
-            texture.SetPixel(x0, y2, new Color(v, v, v, 1));
+            texture.SetPixel(x0, y2, new Color(v/255f, v/255f, v/255f, 1f));
         }
 
         private int max(int v1, float v2)
@@ -115,9 +142,15 @@ namespace UBOAT.Mods.Schussskizze
             last_position = position;
         }
 
+        void createSprite()
+        {
+            texture.Apply();
+            var mySprite = Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f);
+            GetComponent<Image>().sprite = mySprite;
+        }
+
         private void DrawTrackLine(Vector3 v1, Vector3 v2)
         {
-            var texture_offset = new Vector3(texture.width / 2, texture.height / 2, 0);
             var formatted_last_position = matrix.MultiplyPoint3x4(scale * v1) + texture_offset;
             var formatted_position = matrix.MultiplyPoint3x4(scale * v2) + texture_offset;
             plotLineWidth(
@@ -127,9 +160,7 @@ namespace UBOAT.Mods.Schussskizze
                 (int)formatted_position.y,
                 line_width
             );
-            texture.Apply();
-            var mySprite = Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f);
-            GetComponent<Image>().sprite = mySprite;
+            createSprite();
         }
 
         private void onObservationChanged(DirectObservation observation)
@@ -139,7 +170,8 @@ namespace UBOAT.Mods.Schussskizze
                 var track = tracks[observation.Entity];
                 var current_position = new Vector3(
                         observation.Entity.SandboxEntity.Position.x,
-                        observation.Entity.SandboxEntity.Position.y, 0
+                        observation.Entity.SandboxEntity.Position.y, 
+                        0
                         );
                 DrawTrackLine(track.LastKnowPostion, current_position);
                 track.LastKnowPostion = current_position;
