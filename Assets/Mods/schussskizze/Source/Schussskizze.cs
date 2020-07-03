@@ -29,12 +29,14 @@ namespace UBOAT.Mods.Schussskizze
         [Inject]
         private static IExecutionQueue executionQueue;
 
-        private List<DirectObservation> observations = new List<DirectObservation>();
+        private static List<DirectObservation> observations = new List<DirectObservation>();
         private GameObject UI;
 
         public static Action<Vector3> OnPlayerPosition;
         public static Vector3 PlayerPostion => new Vector3(playerShip.SandboxEntity.Position.x, playerShip.SandboxEntity.Position.y, 0);
         public static Vector2 PlayerPostion2D => playerShip.SandboxEntity.Position;
+        public static float CrewAccuracy => playerShip.CrewAccuracy;
+        public static DirectObservation[] Observations => observations.ToArray();
 
         public static Action<DirectObservation> OnObservationChanged;
 
