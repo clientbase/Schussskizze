@@ -43,11 +43,17 @@ namespace UBOAT.Mods.Schussskizze
             InitTexture();
 
             texture_offset = new Vector3(texture.width / 2, texture.height / 2, 0);
+            var most_distant_offset = (Schussskizze.PlayerPostion2D - Schussskizze.MostDistanceEntity.SandboxEntity.Position);
+            var offset = new Vector3(
+                most_distant_offset.x, 
+                most_distant_offset.y, 
+                0);
 
             var mySprite = Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f);
             GetComponent<Image>().sprite = mySprite;
 
-            matrix.SetTRS(-Schussskizze.PlayerPostion * scale, Quaternion.identity, Vector3.one);
+            matrix.SetTRS((7f * offset.normalized - Schussskizze.PlayerPostion) * scale, Quaternion.identity, Vector3.one);
+
             last_position = Schussskizze.PlayerPostion;
 
             last_position = matrix * Schussskizze.PlayerPostion;
@@ -55,16 +61,15 @@ namespace UBOAT.Mods.Schussskizze
 
             Schussskizze.OnObservationChanged += onObservationChanged;
 
-            var formatted_position = matrix.MultiplyPoint3x4(scale * last_position) + texture_offset;
-            loadSplatsAt(last_position);
+            loadSplatsAt(last_position, "PlayerStartPoint");
         }
 
-        void loadSplatsAt(Vector3 position)
+        void loadSplatsAt(Vector3 position, string splat)
         {
             var point = matrix.MultiplyPoint3x4(scale * position) * TextureToViewPortScale;
             Debug.Log("Draw mark at: " + position);
             Debug.Log("Draw mark at UI point: " + point);
-            var start_point = resourceManager.InstantiatePrefab("UI/PlayerStartPoint");
+            var start_point = resourceManager.InstantiatePrefab("UI/" + splat);
             start_point.transform.SetParent(this.transform, true);
             start_point.transform.SetAsLastSibling();
             start_point.transform.localPosition = matrix.MultiplyPoint3x4(scale * position) * TextureToViewPortScale;
@@ -140,7 +145,7 @@ namespace UBOAT.Mods.Schussskizze
 
         private void onPlayerPositionUpdate(Vector3 position)
         {
-            DrawTrackLine(last_position, position);
+            DrawTrackLine(last_position, position, 10f);
             last_position = position;
         }
 
@@ -151,7 +156,7 @@ namespace UBOAT.Mods.Schussskizze
             GetComponent<Image>().sprite = mySprite;
         }
 
-        private void DrawTrackLine(Vector3 v1, Vector3 v2)
+        private void DrawTrackLine(Vector3 v1, Vector3 v2, float width)
         {
             var formatted_last_position = matrix.MultiplyPoint3x4(scale * v1) + texture_offset;
             var formatted_position = matrix.MultiplyPoint3x4(scale * v2) + texture_offset;
@@ -160,7 +165,7 @@ namespace UBOAT.Mods.Schussskizze
                 (int)formatted_last_position.y,
                 (int)formatted_position.x,
                 (int)formatted_position.y,
-                line_width
+                width
             );
             createSprite();
         }
@@ -175,7 +180,7 @@ namespace UBOAT.Mods.Schussskizze
                         observation.Entity.SandboxEntity.Position.y, 
                         0
                         );
-                DrawTrackLine(track.LastKnowPostion, current_position);
+                DrawTrackLine(track.LastKnowPostion, current_position, 10f);
                 track.LastKnowPostion = current_position;
                 track.LastObservationTime = gameTime.StoryTicks;
                 track.Observation = observation;
@@ -191,7 +196,8 @@ namespace UBOAT.Mods.Schussskizze
                     0
                 );
                 tracks[observation.Entity] = track;
-                loadSplatsAt(track.LastKnowPostion);
+                loadSplatsAt(track.LastKnowPostion, "EnemyContactPoint");
+                DrawTrackLine(track.LastKnowPostion, last_position, 1f);
             }
         }
     }

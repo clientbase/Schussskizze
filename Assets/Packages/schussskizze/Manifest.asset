@@ -14,6 +14,10 @@ MonoBehaviour:
   containedAssets:
   - path: Manifest
     guid: 393b2025135b1334aa43d06e3875e2d5
+  - path: UI/EnemyContactPoint
+    guid: abe92072db0302342bc8ccdbe7511e63
+  - path: UI/EnemyContactPointSprite
+    guid: ed8a6b3d96319b146819204d24c0b566
   - path: UI/PlayerStartPoint
     guid: 3aa3bb6ab9b913c4288581ed78dbea42
   - path: UI/PlayerStartPoint

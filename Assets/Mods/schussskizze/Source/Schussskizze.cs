@@ -34,8 +34,11 @@ namespace UBOAT.Mods.Schussskizze
 
         public static Action<Vector3> OnPlayerPosition;
         public static Vector3 PlayerPostion => new Vector3(playerShip.SandboxEntity.Position.x, playerShip.SandboxEntity.Position.y, 0);
+        public static Vector2 PlayerPostion2D => playerShip.SandboxEntity.Position;
 
         public static Action<DirectObservation> OnObservationChanged;
+
+        public static Entity MostDistanceEntity;
 
         private void showNewSketchButton(bool show)
         {
@@ -56,10 +59,26 @@ namespace UBOAT.Mods.Schussskizze
 
         private void onObservationChanded(DirectObservation observation)
         {
+            determineMostDistance(observation.Entity);
             Debug.Log("Schussskizze - Observation Changed");
             if (OnObservationChanged != null)
             {
                 OnObservationChanged(observation);
+            }
+        }
+
+        private void determineMostDistance(Entity entity)
+        {
+            if (MostDistanceEntity == null || entity.Equals(MostDistanceEntity))
+            {
+                MostDistanceEntity = entity;
+                return;
+            }
+            var distance = (entity.SandboxEntity.Position - playerShip.SandboxEntity.Position).magnitude;
+            var last_distance = (entity.SandboxEntity.Position - MostDistanceEntity.SandboxEntity.Position).magnitude;
+            if (distance > last_distance)
+            {
+                MostDistanceEntity = entity;
             }
         }
 
@@ -77,12 +96,13 @@ namespace UBOAT.Mods.Schussskizze
 
         private void onObservationAdded(Observator observer, DirectObservation observation)
         {
-            Debug.Log("Schussskizze - Observation added! Name:" + observation.Entity.Name + " (total: " + playerShip.GetObservationsDirect().Count + ")");
             if (observation.Entity.Country.GetRelationWith(playerShip.Country) == Country.Relation.Enemy)
             {
                 observation.Changed += onObservationChanded;
                 observations.Add(observation);
+                // Technically not a change
                 onObservationChanded(observation);
+                determineMostDistance(observation.Entity);
             }
         }
 
