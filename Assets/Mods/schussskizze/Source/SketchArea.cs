@@ -34,7 +34,7 @@ namespace UBOAT.Mods.Schussskizze
         private Dictionary<Entity, Track> tracks = new Dictionary<Entity, Track>();
         private Vector3 texture_offset;
         private Dictionary<string, Texture2D> splats = new Dictionary<string, Texture2D>();
-        private Vector2 viewportSize = new Vector2(800, 450);
+        private Vector2 viewportSize = new Vector2(1040, 585);
         private Vector2 textureSize = new Vector2(1920, 1080);
         private float TextureToViewPortScale;
         private float entityToSandboxEntityScale = 1f/1000f;
