@@ -36,14 +36,16 @@ namespace UBOAT.Mods.Schussskizze
         private Dictionary<string, Texture2D> splats = new Dictionary<string, Texture2D>();
         private Vector2 viewportSize = new Vector2(800, 450);
         private Vector2 textureSize = new Vector2(1920, 1080);
-        private float TextureToViewPortScale = 800f / 1920f;
+        private float TextureToViewPortScale;
         private float entityToSandboxEntityScale = 1f/1000f;
 
         public void Start()
         {
             Debug.Log("Player has started a sketch.");
-
+            
             InitTexture();
+
+            TextureToViewPortScale = viewportSize.x / texture.width;
 
             texture_offset = new Vector3(texture.width / 2, texture.height / 2, 0);
             var most_distant_offset = (Schussskizze.PlayerPostion2D - Schussskizze.MostDistanceEntity.SandboxEntity.Position);
