@@ -119,10 +119,11 @@ namespace UBOAT.Mods.Schussskizze
 
         private void onObservationRemoved(Observator observer, DirectObservation observation)
         {
-            Debug.Log("Schussskizze - Observation removed! Name: " + observation.Entity.Name + " (total: " + playerShip.GetObservationsDirect().Count + ")");
+            //Debug.Log("Schussskizze - Observation removed! Name: " + observation.Entity.Name + " (total: " + playerShip.GetObservationsDirect().Count + ")");
             if (observations.Contains(observation))
             {
-                Debug.Log("Observation in list removed!");
+                //Debug.Log("Observation in list removed!");
+                //Do nothing
             }
         }
 
