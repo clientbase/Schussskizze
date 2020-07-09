@@ -134,6 +134,15 @@ namespace UBOAT.Mods.Schussskizze
             playerShip.ObservationAdded += onObservationRemoved;
         }
 
+        private void unwireAllEvents()
+        {
+            playerShip.AlarmStarted -= onAlarmStarted;
+            playerShip.AlarmStopped -= onAlarmStoped;
+            playerShip.ObservationAdded -= onObservationAdded;
+            playerShip.ObservationAdded -= onObservationRemoved;
+            SceneEventsListener.OnSceneAwake -= onSceneAwake;
+        }
+
         public void OnLoaded()
         {
             Debug.Log("Schussskizze mod is active!");
