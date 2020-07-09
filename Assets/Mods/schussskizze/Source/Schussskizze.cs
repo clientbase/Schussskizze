@@ -168,7 +168,7 @@ namespace UBOAT.Mods.Schussskizze
                     UI = schussskizze;
                     showNewSketchButton(false);
                     wireEvents();
-                    executionQueue.AddTimedUpdateListener(UpdatePlayerPosition, 5.0f);
+                    executionQueue.AddTimedUpdateListener(UpdatePlayerPosition, 60f);
                 }
             }
             catch (Exception e)
