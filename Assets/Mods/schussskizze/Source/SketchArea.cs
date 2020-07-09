@@ -37,6 +37,7 @@ namespace UBOAT.Mods.Schussskizze
         private Vector2 viewportSize = new Vector2(800, 450);
         private Vector2 textureSize = new Vector2(1920, 1080);
         private float TextureToViewPortScale = 800f / 1920f;
+        private float sandboxEntityToEntityScale = 1f/1000f;
 
         public void Start()
         {
@@ -251,9 +252,9 @@ namespace UBOAT.Mods.Schussskizze
             if (!float.IsNaN(track.Observation.EstimatedDistance))
             {
                 Debug.Log("Distance Estimate from Observation: " + track.Observation.EstimatedDistance);
-                var observed_offset = offset.normalized * track.Observation.EstimatedDistance / 1000f;
+                var observed_offset = offset.normalized * track.Observation.EstimatedDistance * sandboxEntityToEntityScale;
                 track.EstimatedPostion = Schussskizze.PlayerPostion + observed_offset;
-                track.Error = offset.magnitude - track.Observation.EstimatedDistance / 1000f;
+                track.Error = offset.magnitude - track.Observation.EstimatedDistance * sandboxEntityToEntityScale;
                 return;
             }
             else if (!float.IsNaN(track.Error))
