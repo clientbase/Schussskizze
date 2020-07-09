@@ -50,6 +50,11 @@ namespace UBOAT.Mods.Schussskizze
             var onClickHide = new Button.ButtonClickedEvent();
             onClickHide.AddListener(hideActive);
             hideButtonOject.GetComponent<Button>().onClick = onClickHide;
+
+            var archiveButtonOject = new_sketch.transform.Find("ArchiveButton");
+            var onClickarchive = new Button.ButtonClickedEvent();
+            onClickarchive.AddListener(archiveActive);
+            archiveButtonOject.GetComponent<Button>().onClick = onClickarchive;
         }
 
         public void hideActive()
@@ -62,6 +67,11 @@ namespace UBOAT.Mods.Schussskizze
         {
             activeSketch.SetActive(true);
             ShowSketchButtonObject.SetActive(false);
+        }
+
+        public void archiveActive()
+        {
+            GameObject.Destroy(activeSketch);
         }
     }
 }
