@@ -63,6 +63,7 @@ namespace UBOAT.Mods.Schussskizze
             {
                 OnAlarmStopped();
             }
+            observations.Clear();
         }
 
         private void onObservationChanded(DirectObservation observation)
