@@ -194,6 +194,7 @@ namespace UBOAT.Mods.Schussskizze
             DrawTrack(observation);
             var track = tracks[observation.Entity];
             loadSplatsAt(track.EstimatedPostion, "XMarker_Icon");
+            DrawTrackLine(track.EstimatedPostion, Schussskizze.PlayerPostion, 0.5f);
         }
 
         private void onObservatioAdded(DirectObservation observation)
@@ -239,7 +240,6 @@ namespace UBOAT.Mods.Schussskizze
                 Debug.Log("Track LastKnowPositon: " + track.LastKnowPosition);
                 tracks.Add(observation.Entity, track);
                 loadSplatsAt(track.EstimatedPostion, "EnemyContactPoint");
-                DrawTrackLine(track.EstimatedPostion, Schussskizze.PlayerPostion, 1f);
                 observation.EstimationChanged += drawNewCustomObservation;
             }
         }
