@@ -59,8 +59,8 @@ namespace UBOAT.Mods.Schussskizze
             last_position = Schussskizze.PlayerPostion;
 
             last_position = matrix * Schussskizze.PlayerPostion;
-            Schussskizze.OnPlayerPosition += onPlayerPositionUpdate;
 
+            Schussskizze.OnPlayerPosition += onPlayerPositionUpdate;
             Schussskizze.OnObservationChanged += onObservationChanged;
             Schussskizze.OnObservationAdded += onObservatioAdded;
 
@@ -77,6 +77,10 @@ namespace UBOAT.Mods.Schussskizze
             Schussskizze.OnPlayerPosition -= onPlayerPositionUpdate;
             Schussskizze.OnObservationChanged -= onObservationChanged;
             Schussskizze.OnObservationAdded -= onObservatioAdded;
+            foreach (DirectObservation o in Schussskizze.Observations)
+            {
+                o.EstimationChanged -= drawNewCustomObservation;
+            }
         }
 
         void loadSplatsAt(Vector3 position, string splat)
