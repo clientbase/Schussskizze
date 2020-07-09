@@ -33,12 +33,14 @@ namespace UBOAT.Mods.Schussskizze
         private GameObject UI;
 
         public static Action<Vector3> OnPlayerPosition;
+        public static Action OnAlarmStopped;
         public static Vector3 PlayerPostion => new Vector3(playerShip.SandboxEntity.Position.x, playerShip.SandboxEntity.Position.y, 0);
         public static Vector2 PlayerPostion2D => playerShip.SandboxEntity.Position;
         public static float CrewAccuracy => playerShip.CrewAccuracy;
         public static DirectObservation[] Observations => observations.ToArray();
 
         public static Action<DirectObservation> OnObservationChanged;
+        public static Action<DirectObservation> OnObservationAdded;
 
         public static Entity MostDistanceEntity;
 
@@ -57,6 +59,10 @@ namespace UBOAT.Mods.Schussskizze
         {
             Debug.Log("Schussskizze - Alarm stopped!");
             showNewSketchButton(false);
+            if (OnAlarmStopped != null)
+            {
+                OnAlarmStopped();
+            }
         }
 
         private void onObservationChanded(DirectObservation observation)
@@ -102,9 +108,11 @@ namespace UBOAT.Mods.Schussskizze
             {
                 observation.Changed += onObservationChanded;
                 observations.Add(observation);
-                // Technically not a change
-                onObservationChanded(observation);
                 determineMostDistance(observation.Entity);
+                if (OnObservationAdded != null)
+                {
+                    OnObservationAdded(observation);
+                }
             }
         }
 

@@ -62,6 +62,7 @@ namespace UBOAT.Mods.Schussskizze
             Schussskizze.OnPlayerPosition += onPlayerPositionUpdate;
 
             Schussskizze.OnObservationChanged += onObservationChanged;
+            Schussskizze.OnObservationAdded += onObservatioAdded;
 
             loadSplatsAt(last_position, "PlayerStartPoint");
 
@@ -69,6 +70,13 @@ namespace UBOAT.Mods.Schussskizze
             {
                 DrawTrack(o);
             }
+        }
+
+        public void OnDestroy()
+        {
+            Schussskizze.OnPlayerPosition -= onPlayerPositionUpdate;
+            Schussskizze.OnObservationChanged -= onObservationChanged;
+            Schussskizze.OnObservationAdded -= onObservatioAdded;
         }
 
         void loadSplatsAt(Vector3 position, string splat)
@@ -177,42 +185,21 @@ namespace UBOAT.Mods.Schussskizze
             createSprite();
         }
 
+        private void drawNewCustomObservation(DirectObservation observation)
+        {
+            DrawTrack(observation);
+            var track = tracks[observation.Entity];
+            loadSplatsAt(track.EstimatedPostion, "XMarker_Icon");
+        }
+
+        private void onObservatioAdded(DirectObservation observation)
+        {
+            DrawTrack(observation);
+        }
+
         private void onObservationChanged(DirectObservation observation)
         {
-            if (tracks.ContainsKey(observation.Entity))
-            {
-                var track = tracks[observation.Entity];
-                var current_position = new Vector3(
-                        observation.Entity.SandboxEntity.Position.x,
-                        observation.Entity.SandboxEntity.Position.y, 
-                        0
-                        );
-                var last_estimate = track.EstimatedPostion;
-                estimatePostion(ref track);
-                DrawTrackLine(last_estimate, track.EstimatedPostion, 10f);
-                track.LastKnowPosition = current_position;
-                track.LastObservationTime = gameTime.StoryTicks;
-                track.Observation = observation;
-            }
-            else
-            {
-                var track = new Track();
-                track.LastObservationTime = gameTime.StoryTicks;
-                track.Observation = observation;
-                track.LastKnowPosition = new Vector3(
-                    observation.Entity.SandboxEntity.Position.x,
-                    observation.Entity.SandboxEntity.Position.y,
-                    0
-                );
-                estimatePostion(ref track);
-                Debug.Log("Track Error: " + track.Error);
-                Debug.Log("Track Estimated Position: " + track.EstimatedPostion);
-                Debug.Log("Track LastKnowPositon: " + track.LastKnowPosition);
-                tracks.Add(observation.Entity, track);
-                loadSplatsAt(track.EstimatedPostion, "EnemyContactPoint");
-                DrawTrackLine(track.EstimatedPostion, Schussskizze.PlayerPostion, 1f);
-                observation.EstimationChanged += DrawTrack;
-            }
+            DrawTrack(observation);
         }
 
         void DrawTrack(DirectObservation observation)
@@ -249,19 +236,20 @@ namespace UBOAT.Mods.Schussskizze
                 tracks.Add(observation.Entity, track);
                 loadSplatsAt(track.EstimatedPostion, "EnemyContactPoint");
                 DrawTrackLine(track.EstimatedPostion, Schussskizze.PlayerPostion, 1f);
-                observation.EstimationChanged += DrawTrack;
+                observation.EstimationChanged += drawNewCustomObservation;
             }
         }
 
         void estimatePostion(ref Track track)
         {
-            var offset = (track.LastKnowPosition - Schussskizze.PlayerPostion);
+            var target_position = new Vector3(track.Observation.Entity.SandboxEntity.Position.x, track.Observation.Entity.SandboxEntity.Position.y, 0);
+            var offset = (target_position - Schussskizze.PlayerPostion);
             if (!float.IsNaN(track.Observation.EstimatedDistance))
             {
                 Debug.Log("Distance Estimate from Observation: " + track.Observation.EstimatedDistance);
-                offset = offset.normalized * track.Observation.EstimatedDistance / 1000f;
-                track.EstimatedPostion = offset + Schussskizze.PlayerPostion;
-                track.Error = offset.magnitude - track.Observation.EstimatedDistance;
+                var observed_offset = offset.normalized * track.Observation.EstimatedDistance / 1000f;
+                track.EstimatedPostion = Schussskizze.PlayerPostion + observed_offset;
+                track.Error = offset.magnitude - track.Observation.EstimatedDistance / 1000f;
                 return;
             }
             else if (!float.IsNaN(track.Error))

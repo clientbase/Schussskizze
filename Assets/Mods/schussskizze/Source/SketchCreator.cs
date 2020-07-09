@@ -58,6 +58,9 @@ namespace UBOAT.Mods.Schussskizze
             archiveButtonOject.GetComponent<Button>().onClick = onClickarchive;
 
             newSketchButton.SetActive(false);
+
+            // reset when alarm stops
+            Schussskizze.OnAlarmStopped += archiveActive;
         }
 
         public void hideActive()
@@ -76,6 +79,11 @@ namespace UBOAT.Mods.Schussskizze
         {
             GameObject.Destroy(activeSketch);
             newSketchButton.SetActive(true);
+        }
+
+        public void OnDestroy()
+        {
+            Schussskizze.OnAlarmStopped -= archiveActive;
         }
     }
 }

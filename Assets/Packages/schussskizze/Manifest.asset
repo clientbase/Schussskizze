@@ -18,6 +18,8 @@ MonoBehaviour:
     guid: abe92072db0302342bc8ccdbe7511e63
   - path: UI/EnemyContactPointSprite
     guid: ed8a6b3d96319b146819204d24c0b566
+  - path: UI/North_Icon
+    guid: 5d714c68c08d6184a86a6e23d5a3682d
   - path: UI/PlayerStartPoint
     guid: 3aa3bb6ab9b913c4288581ed78dbea42
   - path: UI/PlayerStartPoint
@@ -34,3 +36,7 @@ MonoBehaviour:
     guid: 7d276b06a0ff79942b8957fd66e03f93
   - path: UI/Werbedeutsch
     guid: d8d4c428b8ed2f744b392d0054fe1cca
+  - path: UI/XMarker_Icon
+    guid: f8224c77abdfca44d8fc1555407989ce
+  - path: UI/XMarker_Icon
+    guid: 0cd82e4cd487e45498a64d2107348482
