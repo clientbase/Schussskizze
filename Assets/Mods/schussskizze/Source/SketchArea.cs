@@ -59,8 +59,6 @@ namespace UBOAT.Mods.Schussskizze
 
             matrix.SetTRS((7f * offset.normalized - Schussskizze.PlayerPostion) * scale, Quaternion.identity, Vector3.one);
 
-            last_position = Schussskizze.PlayerPostion;
-
             last_position = matrix * Schussskizze.PlayerPostion;
 
             Schussskizze.OnPlayerPosition += onPlayerPositionUpdate;
