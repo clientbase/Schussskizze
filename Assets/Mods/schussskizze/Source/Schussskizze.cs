@@ -38,6 +38,7 @@ namespace UBOAT.Mods.Schussskizze
         public static Vector2 PlayerPostion2D => playerShip.SandboxEntity.Position;
         public static float CrewAccuracy => playerShip.CrewAccuracy;
         public static DirectObservation[] Observations => observations.ToArray();
+        public static string BoatName => playerShip.Name;
 
         public static Action<DirectObservation> OnObservationChanged;
         public static Action<DirectObservation> OnObservationAdded;

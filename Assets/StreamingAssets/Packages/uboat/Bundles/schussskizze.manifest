@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3468499270
+CRC: 3612972662
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: fadf30c8f0171b2519ab9ab45c2201d2
+    Hash: fedff7930df523ab12aac099fd26287b
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 9a6e823978169cbaf88b615a1eadb7ef
+    Hash: 97a152d90c150a3083fe557aaa118b0f
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -34,11 +34,7 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 1651638530, guid: aaeaace971825154b9e63cccd06929df, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-- Class: 114
   Script: {fileID: 11500000, guid: f754692bde12e9944aea6fe307f6f3f0, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: ceede00c9dcb9e44aa9a3999146b4609, type: 3}
 - Class: 115
@@ -54,10 +50,18 @@ ClassTypes:
 - Class: 224
   Script: {instanceID: 0}
 Assets:
+- Assets/Packages/schussskizze/UI/EnemyContactPoint.prefab
 - Assets/Packages/schussskizze/UI/SchussskizzeBG.jpg
 - Assets/Packages/schussskizze/Manifest.asset
 - Assets/Packages/schussskizze/UI/SketchAreaPanel.prefab
 - Assets/Packages/schussskizze/UI/SchussskizzeLineMaterial.mat
+- Assets/Packages/schussskizze/UI/PlayerStartPointSprite.png
+- Assets/Packages/schussskizze/UI/XMarker_Icon.png
 - Assets/Packages/schussskizze/UI/Werbedeutsch.ttf
+- Assets/Packages/schussskizze/UI/North_Icon.png
+- Assets/Packages/schussskizze/UI/PlayerStartPoint.prefab
+- Assets/Packages/schussskizze/UI/PlayerStartPoint.png
 - Assets/Packages/schussskizze/UI/SchussskizzeCanvas.prefab
+- Assets/Packages/schussskizze/UI/XMarker_Icon.prefab
+- Assets/Packages/schussskizze/UI/EnemyContactPointSprite.png
 Dependencies: []

@@ -61,6 +61,9 @@ namespace UBOAT.Mods.Schussskizze
 
             // reset when alarm stops
             Schussskizze.OnAlarmStopped += archiveActive;
+
+            var titleObject = new_sketch.transform.FindDeepChild("BoatName");
+            titleObject.GetComponent<Text>().text = "Schußskizze - " + Schussskizze.BoatName;
         }
 
         public void hideActive()
