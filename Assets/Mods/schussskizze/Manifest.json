@@ -1,1 +1,14 @@
-{"name":"Schussskizze","version":"0.01","description":"This mod allows the player to create an attack sketche that plots the track of the players ship and any other ships being observed.","author":"T, Freekoly","minGameVersion":"B127","maxGameVersion":null,"assemblyName":"Schussskizze","permissions":["Reflection","IO"],"steamFileId":0}
+{
+    "name": "Schussskizze",
+    "version": "0.01",
+    "description": "This mod allows the player to create an attack sketche that plots the track of the players ship and any other ships being observed.",
+    "author": "T, Freekoly",
+    "minGameVersion": "B127",
+    "maxGameVersion": "",
+    "assemblyName": "Schussskizze",
+    "permissions": [
+        "Reflection",
+        "IO"
+    ],
+    "steamFileId": 2161474809
+}
