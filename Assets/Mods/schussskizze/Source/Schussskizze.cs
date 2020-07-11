@@ -106,6 +106,11 @@ namespace UBOAT.Mods.Schussskizze
 
         private void onObservationAdded(Observator observer, DirectObservation observation)
         {
+            var cat = observation.Entity.Category;
+
+            // ignore aircraft for now
+            if (cat == "Aircraft" || cat == "Carrier-Borne Aircraft") return;
+
             if (observation.Entity.Country.GetRelationWith(playerShip.Country) == Country.Relation.Enemy)
             {
                 observation.Changed += onObservationChanded;
