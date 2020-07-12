@@ -101,7 +101,6 @@ namespace UBOAT.Mods.Schussskizze
             texture.Fill(new Color(0f, 0f, 0f, 0f));
             texture.wrapMode = TextureWrapMode.Clamp;
             texture.Apply();
-            //GetComponent<Image>().material.SetTexture("_MainTex", texture);
         }
 
         void SplatTexture(int x, int y, Texture2D splat)
