@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2037568220
+CRC: 350216357
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 55e5aa1fcb72622f8e529cae750d6d95
+    Hash: 2fc34d003cafd7f08f163d27e96564a9
   TypeTreeHash:
     serializedVersion: 2
     Hash: 81270a090ff7251cc61de4a7f4b648bd
@@ -54,6 +54,7 @@ ClassTypes:
 - Class: 224
   Script: {instanceID: 0}
 Assets:
+- Assets/Packages/schussskizze/UI/pops_08_REGULAR.ttf
 - Assets/Packages/schussskizze/UI/EnemyContactPoint.prefab
 - Assets/Packages/schussskizze/UI/SchussskizzeBG.jpg
 - Assets/Packages/schussskizze/Manifest.asset
@@ -63,9 +64,13 @@ Assets:
 - Assets/Packages/schussskizze/UI/XMarker_Icon.png
 - Assets/Packages/schussskizze/UI/Werbedeutsch.ttf
 - Assets/Packages/schussskizze/UI/North_Icon.png
+- Assets/Packages/schussskizze/UI/BLUNT.TTF
+- Assets/Packages/schussskizze/UI/SketchText.prefab
+- Assets/Packages/schussskizze/UI/HomemadeApple.ttf
 - Assets/Packages/schussskizze/UI/PlayerStartPoint.prefab
 - Assets/Packages/schussskizze/UI/PlayerStartPoint.png
 - Assets/Packages/schussskizze/UI/SchussskizzeCanvas.prefab
 - Assets/Packages/schussskizze/UI/XMarker_Icon.prefab
 - Assets/Packages/schussskizze/UI/EnemyContactPointSprite.png
+- Assets/Packages/schussskizze/UI/pops_08_BOLD.ttf
 Dependencies: []

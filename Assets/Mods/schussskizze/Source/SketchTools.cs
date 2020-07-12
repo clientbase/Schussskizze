@@ -66,6 +66,8 @@ namespace UBOAT.Mods.Schussskizze {
                 points.Add(position);
                 SketchArea.AddSplatAtUIPos(position, "XMarker_Icon");
                 SketchArea.DrawLineWithUICoords(points[0], points[1]);
+                var halfway = (points[0] + points[1]) / 2f;
+                SketchArea.AddTextAtUIPos(halfway, "420m");
                 stopTool();
             }
             else

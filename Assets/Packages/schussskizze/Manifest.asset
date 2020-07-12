@@ -14,10 +14,14 @@ MonoBehaviour:
   containedAssets:
   - path: Manifest
     guid: 393b2025135b1334aa43d06e3875e2d5
+  - path: UI/BLUNT
+    guid: fd058b796f6191341a9f3fb8de4c157c
   - path: UI/EnemyContactPoint
     guid: abe92072db0302342bc8ccdbe7511e63
   - path: UI/EnemyContactPointSprite
     guid: ed8a6b3d96319b146819204d24c0b566
+  - path: UI/HomemadeApple
+    guid: 77fd5a4abd12b574595a556be7d96387
   - path: UI/North_Icon
     guid: 5d714c68c08d6184a86a6e23d5a3682d
   - path: UI/PlayerStartPoint
@@ -26,6 +30,10 @@ MonoBehaviour:
     guid: 0657b16af3aa972429e2d823ec90b159
   - path: UI/PlayerStartPointSprite
     guid: eef24fc6d43ae204c87e2c0f685a340a
+  - path: UI/pops_08_BOLD
+    guid: 86f574ce6d7519947825b3989dd1c6f3
+  - path: UI/pops_08_REGULAR
+    guid: cd50d7614e7f1fb43a1c3e9796194f4c
   - path: UI/SchussskizzeBG
     guid: e667fcd40dbcb304a91af5c52a8743a6
   - path: UI/SchussskizzeCanvas
@@ -34,6 +42,8 @@ MonoBehaviour:
     guid: 876f4ba61a67ca649a656598492d5578
   - path: UI/SketchAreaPanel
     guid: 7d276b06a0ff79942b8957fd66e03f93
+  - path: UI/SketchText
+    guid: 8319f02a963392f45b9d285e2cb4c8ad
   - path: UI/Werbedeutsch
     guid: d8d4c428b8ed2f744b392d0054fe1cca
   - path: UI/XMarker_Icon

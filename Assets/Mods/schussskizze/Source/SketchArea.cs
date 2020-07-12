@@ -41,6 +41,7 @@ namespace UBOAT.Mods.Schussskizze
 
         public static Action<Vector2, string> AddSplatAtUIPos;
         public static Action<Vector2, Vector2> DrawLineWithUICoords;
+        public static Action<Vector2, string> AddTextAtUIPos;
 
         public void Start()
         {
@@ -77,6 +78,7 @@ namespace UBOAT.Mods.Schussskizze
 
             AddSplatAtUIPos += addSplatAtUIPos;
             DrawLineWithUICoords += drawLineAtUICoords;
+            AddTextAtUIPos += addTextAtUIPos;
         }
 
         public void OnDestroy()
@@ -89,6 +91,8 @@ namespace UBOAT.Mods.Schussskizze
                 o.EstimationChanged -= drawNewCustomObservation;
             }
             AddSplatAtUIPos -= addSplatAtUIPos;
+            DrawLineWithUICoords -= drawLineAtUICoords;
+            AddTextAtUIPos -= addTextAtUIPos;
         }
 
         void drawLineAtUICoords(Vector2 v1, Vector2 v2)
@@ -100,12 +104,21 @@ namespace UBOAT.Mods.Schussskizze
             texture.Apply();
         }
 
-        void addSplatAtUIPos(Vector2 postion, string splat)
+        void addTextAtUIPos(Vector2 position, string text)
+        {
+            var splatObject = resourceManager.InstantiatePrefab("UI/SketchText");
+            splatObject.transform.SetParent(this.transform, true);
+            splatObject.transform.SetAsLastSibling();
+            splatObject.transform.localPosition = new Vector3(position.x, position.y, 0);
+            splatObject.GetComponent<Text>().text = text;
+        }
+
+        void addSplatAtUIPos(Vector2 position, string splat)
         {
             var splatObject = resourceManager.InstantiatePrefab("UI/" + splat);
             splatObject.transform.SetParent(this.transform, true);
             splatObject.transform.SetAsLastSibling();
-            splatObject.transform.localPosition = new Vector3(postion.x, postion.y, 0);
+            splatObject.transform.localPosition = new Vector3(position.x, position.y, 0);
         }
 
         void loadSplatsAt(Vector3 position, string splat)
