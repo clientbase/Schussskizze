@@ -31,6 +31,7 @@ namespace UBOAT.Mods.Schussskizze
 
         private static List<DirectObservation> observations = new List<DirectObservation>();
         private GameObject UI;
+        private static float playerPositionUpdateTime = 60f;
 
         public static Action<Vector3> OnPlayerPosition;
         public static Action OnAlarmStopped;
@@ -166,7 +167,7 @@ namespace UBOAT.Mods.Schussskizze
             {
                 OnPlayerPosition(new Vector3(playerShip.SandboxEntity.Position.x, playerShip.SandboxEntity.Position.y, 0));
             }
-            return 5.0f;
+            return playerPositionUpdateTime;
         }
 
         private void onSceneAwake(Scene scene)
@@ -184,7 +185,7 @@ namespace UBOAT.Mods.Schussskizze
                     UI = schussskizze;
                     showNewSketchButton(false);
                     wireEvents();
-                    executionQueue.AddTimedUpdateListener(UpdatePlayerPosition, 60f);
+                    executionQueue.AddTimedUpdateListener(UpdatePlayerPosition, playerPositionUpdateTime);
                 }
             }
             catch (Exception e)

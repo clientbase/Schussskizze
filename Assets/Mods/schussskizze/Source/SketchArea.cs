@@ -39,6 +39,9 @@ namespace UBOAT.Mods.Schussskizze
         private float TextureToViewPortScale;
         private float entityToSandboxEntityScale = 1f/1000f;
 
+        public static Action<Vector2, string> AddSplatAtUIPos;
+        public static Action<Vector2, Vector2> DrawLineWithUICoords;
+
         public void Start()
         {
             Debug.Log("Player has started a sketch.");
@@ -71,6 +74,9 @@ namespace UBOAT.Mods.Schussskizze
             {
                 DrawTrack(o);
             }
+
+            AddSplatAtUIPos += addSplatAtUIPos;
+            DrawLineWithUICoords += drawLineAtUICoords;
         }
 
         public void OnDestroy()
@@ -82,6 +88,24 @@ namespace UBOAT.Mods.Schussskizze
             {
                 o.EstimationChanged -= drawNewCustomObservation;
             }
+            AddSplatAtUIPos -= addSplatAtUIPos;
+        }
+
+        void drawLineAtUICoords(Vector2 v1, Vector2 v2)
+        {
+            var v1_px = v1 * (1f/TextureToViewPortScale) + new Vector2(texture_offset.x, texture_offset.y);
+            var v2_px = v2 * (1f/TextureToViewPortScale) + new Vector2(texture_offset.x, texture_offset.y);
+            Debug.Log("PLot Line: " + v1_px + " " + v2_px);
+            plotLineWidth((int)v1_px.x, (int)v1_px.y, (int)v2_px.x, (int)v2_px.y, 1f);
+            texture.Apply();
+        }
+
+        void addSplatAtUIPos(Vector2 postion, string splat)
+        {
+            var splatObject = resourceManager.InstantiatePrefab("UI/" + splat);
+            splatObject.transform.SetParent(this.transform, true);
+            splatObject.transform.SetAsLastSibling();
+            splatObject.transform.localPosition = new Vector3(postion.x, postion.y, 0);
         }
 
         void loadSplatsAt(Vector3 position, string splat)
