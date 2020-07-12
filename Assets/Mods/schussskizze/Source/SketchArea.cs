@@ -41,7 +41,7 @@ namespace UBOAT.Mods.Schussskizze
 
         public static Action<Vector2, string> AddSplatAtUIPos;
         public static Action<Vector2, Vector2> DrawLineWithUICoords;
-        public static Action<Vector2, string> AddTextAtUIPos;
+        public static Action<Vector2, string, float> AddTextAtUIPos;
 
         public void Start()
         {
@@ -104,12 +104,13 @@ namespace UBOAT.Mods.Schussskizze
             texture.Apply();
         }
 
-        void addTextAtUIPos(Vector2 position, string text)
+        void addTextAtUIPos(Vector2 position, string text, float angle)
         {
             var splatObject = resourceManager.InstantiatePrefab("UI/SketchText");
             splatObject.transform.SetParent(this.transform, true);
             splatObject.transform.SetAsLastSibling();
             splatObject.transform.localPosition = new Vector3(position.x, position.y, 0);
+            splatObject.transform.rotation = Quaternion.Euler(0, 0, angle);
             splatObject.GetComponent<Text>().text = text;
         }
 
