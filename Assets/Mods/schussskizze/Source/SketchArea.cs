@@ -43,6 +43,8 @@ namespace UBOAT.Mods.Schussskizze
         public static Action<Vector2, Vector2> DrawLineWithUICoords;
         public static Action<Vector2, string, float> AddTextAtUIPos;
 
+        public static float UItoGameScale;
+
         public void Start()
         {
             Debug.Log("Player has started a sketch.");
@@ -50,6 +52,8 @@ namespace UBOAT.Mods.Schussskizze
             InitTexture();
 
             TextureToViewPortScale = viewportSize.x / texture.width;
+
+            UItoGameScale = (1 / scale) * (1 / TextureToViewPortScale) * (1/entityToSandboxEntityScale);
 
             texture_offset = new Vector3(texture.width / 2, texture.height / 2, 0);
             var most_distant_offset = (Schussskizze.PlayerPostion2D - Schussskizze.MostDistanceEntity.SandboxEntity.Position);
