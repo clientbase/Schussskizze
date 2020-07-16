@@ -97,6 +97,7 @@ namespace UBOAT.Mods.Schussskizze
             AddSplatAtUIPos -= addSplatAtUIPos;
             DrawLineWithUICoords -= drawLineAtUICoords;
             AddTextAtUIPos -= addTextAtUIPos;
+            Debug.Log("Sketch Area Destoyed");
         }
 
         void drawLineAtUICoords(Vector2 v1, Vector2 v2)
@@ -269,7 +270,8 @@ namespace UBOAT.Mods.Schussskizze
 
         void DrawTrack(DirectObservation observation)
         {
-            if (tracks.ContainsKey(observation.Entity) && gameTime.StoryTicks - tracks[observation.Entity].LastObservationTime > Schussskizze.TrackPositionUpdateTime * 1000f)
+            var known_track = tracks.ContainsKey(observation.Entity);
+            if (known_track && gameTime.StoryTicks - tracks[observation.Entity].LastObservationTime > Schussskizze.TrackPositionUpdateTime * 1000f)
             {
                 var track = tracks[observation.Entity];
                 var current_position = new Vector3(
@@ -284,7 +286,7 @@ namespace UBOAT.Mods.Schussskizze
                 track.LastObservationTime = gameTime.StoryTicks;
                 track.Observation = observation;
             }
-            else
+            else if(!known_track)
             {
                 var track = new Track();
                 track.LastObservationTime = gameTime.StoryTicks;

@@ -36,32 +36,31 @@ namespace UBOAT.Mods.Schussskizze
 
         public static Action<Vector3> OnPlayerPosition;
         public static Action OnAlarmStopped;
+        public static Action OnAlarmStarted;
         public static Vector3 PlayerPostion => new Vector3(playerShip.SandboxEntity.Position.x, playerShip.SandboxEntity.Position.y, 0);
         public static Vector2 PlayerPostion2D => playerShip.SandboxEntity.Position;
         public static float CrewAccuracy => playerShip.CrewAccuracy;
         public static DirectObservation[] Observations => observations.ToArray();
         public static string BoatName => playerShip.Name;
+        public static bool Alarmed { get; private set; }
 
         public static Action<DirectObservation> OnObservationChanged;
         public static Action<DirectObservation> OnObservationAdded;
 
         public static Entity MostDistanceEntity;
 
-        private void showNewSketchButton(bool show)
-        {
-            UI.transform.Find("NewSketchButton").gameObject.SetActive(show);
-        }
-
         private void onAlarmStarted()
         {
-            Debug.Log("Schussskizze - Alarm!");
-            showNewSketchButton(true);
+            Alarmed = true;
+            if (OnAlarmStarted != null)
+            {
+                OnAlarmStarted();
+            }
         }
 
         private void onAlarmStoped()
         {
-            Debug.Log("Schussskizze - Alarm stopped!");
-            showNewSketchButton(false);
+            Alarmed = false;
             if (OnAlarmStopped != null)
             {
                 OnAlarmStopped();
@@ -184,7 +183,6 @@ namespace UBOAT.Mods.Schussskizze
                     var viewport = GameObject.Find("/GUI/Viewport").transform;
                     schussskizze.transform.SetParent(viewport, false);
                     UI = schussskizze;
-                    showNewSketchButton(false);
                     wireEvents();
                     executionQueue.AddTimedUpdateListener(UpdatePlayerPosition, playerPositionUpdateTime);
                 }

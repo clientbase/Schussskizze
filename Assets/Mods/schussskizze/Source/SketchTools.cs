@@ -112,6 +112,8 @@ namespace UBOAT.Mods.Schussskizze {
         private void OnDestroy()
         {
             UIElementEvents.OnPointerClickInSketch -= onClick;
+            transform.Find("RulerButton").GetComponent<Button>().onClick.RemoveAllListeners();
+            SketchTools.toolIsActive = false;
         }
     }
 }

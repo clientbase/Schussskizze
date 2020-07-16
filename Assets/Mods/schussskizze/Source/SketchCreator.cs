@@ -34,6 +34,31 @@ namespace UBOAT.Mods.Schussskizze
             var onClickShow = new Button.ButtonClickedEvent();
             onClickShow.AddListener(showActive);
             ShowSketchButtonObject.GetComponent<Button>().onClick = onClickShow;
+
+            Schussskizze.OnAlarmStopped += onAlarmStopped;
+            Schussskizze.OnAlarmStarted += onAlarmStarted;
+
+            if (Schussskizze.Alarmed)
+            {
+                newSketchButton.SetActive(true);
+            }
+            else
+            {
+                newSketchButton.SetActive(false);
+            }
+        }
+
+        public void onAlarmStarted()
+        {
+            if (activeSketch == null)
+            {
+                newSketchButton.SetActive(true);
+            }
+        }
+
+        public void onAlarmStopped()
+        {
+            newSketchButton.SetActive(false);
         }
 
         public void CreateNewSketch()
@@ -60,7 +85,8 @@ namespace UBOAT.Mods.Schussskizze
             newSketchButton.SetActive(false);
 
             // reset when alarm stops
-            Schussskizze.OnAlarmStopped += archiveActive;
+            Schussskizze.OnAlarmStopped += onAlarmStopped;
+            Schussskizze.OnAlarmStarted += onAlarmStarted;
 
             var titleObject = new_sketch.transform.FindDeepChild("BoatName");
             titleObject.GetComponent<Text>().text = "Schußskizze - " + Schussskizze.BoatName;
@@ -81,12 +107,17 @@ namespace UBOAT.Mods.Schussskizze
         public void archiveActive()
         {
             GameObject.Destroy(activeSketch);
-            newSketchButton.SetActive(true);
+            if (Schussskizze.Alarmed)
+            {
+                newSketchButton.SetActive(true);
+            }          
         }
 
         public void OnDestroy()
         {
             Schussskizze.OnAlarmStopped -= archiveActive;
+            Schussskizze.OnAlarmStopped -= onAlarmStopped;
+            Schussskizze.OnAlarmStarted -= onAlarmStarted;
         }
     }
 }
