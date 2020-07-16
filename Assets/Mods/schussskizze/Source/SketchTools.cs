@@ -70,11 +70,7 @@ namespace UBOAT.Mods.Schussskizze {
                 var angle = GetTextAngle(offset);
                 var halfway = (points[0] + points[1]) / 2f;
                 var distance = offset.magnitude * SketchArea.UItoGameScale;
-                var true_angle = Vector2.Angle(points[1]-points[0], new Vector2(0, 1));
-                if (points[0].x > points[1].x)
-                {
-                    true_angle = 360 - true_angle;
-                }
+                var true_angle = GetTrueAngle(points[0], points[1]);
                 SketchArea.AddTextAtUIPos(halfway, (int)distance + "m " + (int)true_angle + "°", angle);
                 stopTool();
             }
@@ -103,5 +99,19 @@ namespace UBOAT.Mods.Schussskizze {
             return Vector2.Angle(offset, new Vector2(0, 1)) - 90;
         }
 
+        public static float GetTrueAngle(Vector2 v1, Vector2 v2)
+        {
+            var true_angle = Vector2.Angle(v2 - v1, new Vector2(0, 1));
+            if (v1.x > v2.x)
+            {
+                true_angle = 360 - true_angle;
+            }
+            return true_angle;
+        }
+
+        private void OnDestroy()
+        {
+            UIElementEvents.OnPointerClickInSketch -= onClick;
+        }
     }
 }

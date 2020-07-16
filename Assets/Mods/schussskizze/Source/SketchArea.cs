@@ -108,6 +108,23 @@ namespace UBOAT.Mods.Schussskizze
             texture.Apply();
         }
 
+        void addTrackLineWithText(Vector2 v1, Vector2 v2)
+        {
+            var offset = SketchTools.GetTextOffset(v1, v2);
+            var text_angle = SketchTools.GetTextAngle(offset);
+            var true_angle = SketchTools.GetTrueAngle(v1, v2);
+            var halfway = (v1 + v2) / 2;
+            var point = matrix.MultiplyPoint3x4(scale * halfway) * TextureToViewPortScale;
+            var splatObject = resourceManager.InstantiatePrefab("UI/SketchText");
+            splatObject.transform.SetParent(this.transform, true);
+            splatObject.transform.SetAsLastSibling();
+            splatObject.transform.localPosition = new Vector3(point.x, point.y, 0);
+            splatObject.transform.rotation = Quaternion.Euler(0, 0, text_angle);
+            var distance = (int)((v1 - v2).magnitude * (1f/entityToSandboxEntityScale));
+            splatObject.GetComponent<Text>().text = distance + "m " + true_angle + "°";
+            DrawTrackLine(v1, v2, 1f);
+        }
+
         void addTextAtUIPos(Vector2 position, string text, float angle)
         {
             var splatObject = resourceManager.InstantiatePrefab("UI/SketchText");
@@ -207,7 +224,7 @@ namespace UBOAT.Mods.Schussskizze
 
         private void onPlayerPositionUpdate(Vector3 position)
         {
-            DrawTrackLine(last_position, position, 10f);
+            DrawTrackLine(last_position, position, 1f);
             last_position = position;
         }
 
@@ -252,7 +269,7 @@ namespace UBOAT.Mods.Schussskizze
 
         void DrawTrack(DirectObservation observation)
         {
-            if (tracks.ContainsKey(observation.Entity))
+            if (tracks.ContainsKey(observation.Entity) && gameTime.StoryTicks - tracks[observation.Entity].LastObservationTime > Schussskizze.TrackPositionUpdateTime * 1000f)
             {
                 var track = tracks[observation.Entity];
                 var current_position = new Vector3(
@@ -262,7 +279,7 @@ namespace UBOAT.Mods.Schussskizze
                         );
                 var last_estimate = track.EstimatedPostion;
                 estimatePostion(ref track);
-                DrawTrackLine(last_estimate, track.EstimatedPostion, 10f);
+                DrawTrackLine(last_estimate, track.EstimatedPostion, 1f);
                 track.LastKnowPosition = current_position;
                 track.LastObservationTime = gameTime.StoryTicks;
                 track.Observation = observation;

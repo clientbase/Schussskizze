@@ -31,7 +31,8 @@ namespace UBOAT.Mods.Schussskizze
 
         private static List<DirectObservation> observations = new List<DirectObservation>();
         private GameObject UI;
-        private static float playerPositionUpdateTime = 60f;
+        private static float playerPositionUpdateTime = 300f;
+        public static float TrackPositionUpdateTime = 300f;
 
         public static Action<Vector3> OnPlayerPosition;
         public static Action OnAlarmStopped;
