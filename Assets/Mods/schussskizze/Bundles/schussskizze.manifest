@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3633826245
+CRC: 3583154616
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 2fc34d003cafd7f08f163d27e96564a9
+    Hash: d0b6d158689b3106458a54d9b430f8a6
   TypeTreeHash:
     serializedVersion: 2
     Hash: b50c64de7f53b6479dc781f427333888
@@ -56,6 +56,7 @@ ClassTypes:
 Assets:
 - Assets/Packages/schussskizze/UI/pops_08_REGULAR.ttf
 - Assets/Packages/schussskizze/UI/EnemyContactPoint.prefab
+- Assets/Packages/schussskizze/UI/CourseTriangle.png
 - Assets/Packages/schussskizze/UI/SchussskizzeBG.jpg
 - Assets/Packages/schussskizze/Manifest.asset
 - Assets/Packages/schussskizze/UI/SketchAreaPanel.prefab
@@ -65,6 +66,7 @@ Assets:
 - Assets/Packages/schussskizze/UI/Werbedeutsch.ttf
 - Assets/Packages/schussskizze/UI/North_Icon.png
 - Assets/Packages/schussskizze/UI/BLUNT.TTF
+- Assets/Packages/schussskizze/UI/CourseTriangle.prefab
 - Assets/Packages/schussskizze/UI/SketchText.prefab
 - Assets/Packages/schussskizze/UI/HomemadeApple.ttf
 - Assets/Packages/schussskizze/UI/PlayerStartPoint.prefab

@@ -271,20 +271,27 @@ namespace UBOAT.Mods.Schussskizze
         void DrawTrack(DirectObservation observation)
         {
             var known_track = tracks.ContainsKey(observation.Entity);
-            if (known_track && gameTime.StoryTicks - tracks[observation.Entity].LastObservationTime > Schussskizze.TrackPositionUpdateTime * 1000f)
+            if (known_track)
             {
-                var track = tracks[observation.Entity];
-                var current_position = new Vector3(
-                        observation.Entity.SandboxEntity.Position.x,
-                        observation.Entity.SandboxEntity.Position.y,
-                        0
-                        );
-                var last_estimate = track.EstimatedPostion;
-                estimatePostion(ref track);
-                DrawTrackLine(last_estimate, track.EstimatedPostion, 1f);
-                track.LastKnowPosition = current_position;
-                track.LastObservationTime = gameTime.StoryTicks;
-                track.Observation = observation;
+                var last_time = new DateTime(tracks[observation.Entity].LastObservationTime);
+                var time_now = new DateTime(gameTime.StoryTicks);
+                var span = time_now.Subtract(last_time);
+                Debug.Log("Time since last update: " + span.Seconds + " seconds.");
+                if (span.TotalSeconds > Schussskizze.TrackPositionUpdateTime)
+                {
+                    var track = tracks[observation.Entity];
+                    var current_position = new Vector3(
+                            observation.Entity.SandboxEntity.Position.x,
+                            observation.Entity.SandboxEntity.Position.y,
+                            0
+                            );
+                    var last_estimate = track.EstimatedPostion;
+                    estimatePostion(ref track);
+                    DrawTrackLine(last_estimate, track.EstimatedPostion, 1f);
+                    track.LastKnowPosition = current_position;
+                    track.LastObservationTime = gameTime.StoryTicks;
+                    track.Observation = observation;
+                }             
             }
             else if(!known_track)
             {

@@ -16,6 +16,10 @@ MonoBehaviour:
     guid: 393b2025135b1334aa43d06e3875e2d5
   - path: UI/BLUNT
     guid: fd058b796f6191341a9f3fb8de4c157c
+  - path: UI/CourseTriangle
+    guid: fc8a64f3fcb8b8e40bb786d46ca56c59
+  - path: UI/CourseTriangle
+    guid: d5636ba91c4ce1649820e030d2de0625
   - path: UI/EnemyContactPoint
     guid: abe92072db0302342bc8ccdbe7511e63
   - path: UI/EnemyContactPointSprite
