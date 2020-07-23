@@ -276,7 +276,6 @@ namespace UBOAT.Mods.Schussskizze
                 var last_time = new DateTime(tracks[observation.Entity].LastObservationTime);
                 var time_now = new DateTime(gameTime.StoryTicks);
                 var span = time_now.Subtract(last_time);
-                Debug.Log("Time since last update: " + span.Seconds + " seconds.");
                 if (span.TotalSeconds > Schussskizze.TrackPositionUpdateTime)
                 {
                     var track = tracks[observation.Entity];

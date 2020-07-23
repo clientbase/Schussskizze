@@ -8,6 +8,35 @@ namespace UBOAT.Mods.Schussskizze {
     {
         private static bool toolIsActive = false;
         private List<Vector2> points;
+        private Transform protractor;
+        private float rotationSpeed
+        {
+            get
+            {
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    return 300f;
+                }
+                else
+                {
+                    return 50f;
+                }
+            }
+        }
+        private float translationSpeed
+        {
+            get
+            {
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    return 300f;
+                }
+                else
+                {
+                    return 50f;
+                }
+            }
+        }
 
         public enum ToolType
         {
@@ -25,6 +54,40 @@ namespace UBOAT.Mods.Schussskizze {
             rulerButtonEvent.AddListener(() => useTool(ToolType.Ruler));
             transform.Find("RulerButton").GetComponent<Button>().onClick = rulerButtonEvent;
             UIElementEvents.OnPointerClickInSketch += onClick;
+
+            protractor = transform.Find("CourseTriangle");
+            var protractorButtonEvent = new Button.ButtonClickedEvent();
+            protractorButtonEvent.AddListener(() => protractor.gameObject.SetActive(!protractor.gameObject.activeInHierarchy));
+            transform.Find("CourseButton").GetComponent<Button>().onClick = protractorButtonEvent;
+        }
+
+        private void Update()
+        {
+            if (Input.GetKey(KeyCode.Q))
+            {
+                protractor.Rotate(new Vector3(0, 0, 1f), rotationSpeed * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.E))
+            {
+                protractor.Rotate(new Vector3(0, 0, -1f), rotationSpeed * Time.deltaTime);
+            }
+
+            if (Input.GetKey(KeyCode.W))
+            {
+                protractor.localPosition += new Vector3(0, translationSpeed * Time.deltaTime, 0);
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                protractor.localPosition += new Vector3(translationSpeed * Time.deltaTime, 0, 0);
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                protractor.localPosition += new Vector3(0, -translationSpeed * Time.deltaTime, 0);
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                protractor.localPosition += new Vector3(-translationSpeed * Time.deltaTime, 0, 0);
+            }
         }
 
         private void onClick(Vector2 position)
